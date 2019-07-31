@@ -1,16 +1,12 @@
 apply plugin: 'com.android.library'
 
-def safeExtGet(prop, fallback) {
-    rootProject.ext.has(prop) ? rootProject.ext.get(prop) : fallback
-}
-
 android {
-    compileSdkVersion safeExtGet('compileSdkVersion', 28)
-    buildToolsVersion safeExtGet('buildToolsVersion', '28.0.3')
+    compileSdkVersion 25
+    buildToolsVersion "25.0.2"
 
     defaultConfig {
-        minSdkVersion safeExtGet('minSdkVersion', 16)
-        targetSdkVersion safeExtGet('targetSdkVersion', 28)
+        minSdkVersion 16
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
         ndk {
@@ -21,6 +17,6 @@ android {
 
 dependencies {
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
-    implementation 'com.yqritc:android-scalablevideoview:1.0.4'
+    provided 'com.facebook.react:react-native:+'
+    compile 'com.yqritc:android-scalablevideoview:1.0.4'
 }

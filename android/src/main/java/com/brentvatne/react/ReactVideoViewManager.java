@@ -21,7 +21,6 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     public static final String PROP_SRC = "src";
     public static final String PROP_SRC_URI = "uri";
     public static final String PROP_SRC_TYPE = "type";
-    public static final String PROP_SRC_HEADERS = "requestHeaders";
     public static final String PROP_SRC_IS_NETWORK = "isNetwork";
     public static final String PROP_SRC_MAINVER = "mainVer";
     public static final String PROP_SRC_PATCHVER = "patchVer";
@@ -35,7 +34,6 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     public static final String PROP_PROGRESS_UPDATE_INTERVAL = "progressUpdateInterval";
     public static final String PROP_SEEK = "seek";
     public static final String PROP_RATE = "rate";
-    public static final String PROP_FULLSCREEN = "fullscreen";
     public static final String PROP_PLAY_IN_BACKGROUND = "playInBackground";
     public static final String PROP_CONTROLS = "controls";
 
@@ -88,7 +86,6 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
                     src.getString(PROP_SRC_TYPE),
                     src.getBoolean(PROP_SRC_IS_NETWORK),
                     src.getBoolean(PROP_SRC_IS_ASSET),
-                    src.getMap(PROP_SRC_HEADERS),
                     mainVer,
                     patchVer
             );
@@ -98,9 +95,8 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
                     src.getString(PROP_SRC_URI),
                     src.getString(PROP_SRC_TYPE),
                     src.getBoolean(PROP_SRC_IS_NETWORK),
-                    src.getBoolean(PROP_SRC_IS_ASSET),
-                    src.getMap(PROP_SRC_HEADERS)
-                    );
+                    src.getBoolean(PROP_SRC_IS_ASSET)
+            );
         }
     }
 
@@ -147,11 +143,6 @@ public class ReactVideoViewManager extends SimpleViewManager<ReactVideoView> {
     @ReactProp(name = PROP_RATE)
     public void setRate(final ReactVideoView videoView, final float rate) {
         videoView.setRateModifier(rate);
-    }
-
-    @ReactProp(name = PROP_FULLSCREEN, defaultBoolean = false)
-    public void setFullscreen(final ReactVideoView videoView, final boolean fullscreen) {
-        videoView.setFullscreen(fullscreen);
     }
 
     @ReactProp(name = PROP_PLAY_IN_BACKGROUND, defaultBoolean = false)

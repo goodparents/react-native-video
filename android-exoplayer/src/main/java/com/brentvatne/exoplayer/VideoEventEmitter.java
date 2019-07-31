@@ -29,7 +29,6 @@ class VideoEventEmitter {
     private static final String EVENT_LOAD = "onVideoLoad";
     private static final String EVENT_ERROR = "onVideoError";
     private static final String EVENT_PROGRESS = "onVideoProgress";
-    private static final String EVENT_BANDWIDTH = "onVideoBandwidthUpdate";
     private static final String EVENT_SEEK = "onVideoSeek";
     private static final String EVENT_END = "onVideoEnd";
     private static final String EVENT_FULLSCREEN_WILL_PRESENT = "onVideoFullscreenPlayerWillPresent";
@@ -43,7 +42,7 @@ class VideoEventEmitter {
     private static final String EVENT_BUFFER = "onVideoBuffer";
     private static final String EVENT_IDLE = "onVideoIdle";
     private static final String EVENT_TIMED_METADATA = "onTimedMetadata";
-    private static final String EVENT_AUDIO_BECOMING_NOISY = "onVideoAudioBecomingNoisy";
+    private static final String EVENT_AUDIO_BECOMING_NOISY = "onAudioBecomingNoisy";
     private static final String EVENT_AUDIO_FOCUS_CHANGE = "onAudioFocusChanged";
     private static final String EVENT_PLAYBACK_RATE_CHANGE = "onPlaybackRateChange";
 
@@ -67,7 +66,6 @@ class VideoEventEmitter {
             EVENT_AUDIO_BECOMING_NOISY,
             EVENT_AUDIO_FOCUS_CHANGE,
             EVENT_PLAYBACK_RATE_CHANGE,
-            EVENT_BANDWIDTH,
     };
 
     @Retention(RetentionPolicy.SOURCE)
@@ -91,7 +89,6 @@ class VideoEventEmitter {
             EVENT_AUDIO_BECOMING_NOISY,
             EVENT_AUDIO_FOCUS_CHANGE,
             EVENT_PLAYBACK_RATE_CHANGE,
-            EVENT_BANDWIDTH,
     })
     @interface VideoEvents {
     }
@@ -112,8 +109,6 @@ class VideoEventEmitter {
     private static final String EVENT_PROP_WIDTH = "width";
     private static final String EVENT_PROP_HEIGHT = "height";
     private static final String EVENT_PROP_ORIENTATION = "orientation";
-    private static final String EVENT_PROP_VIDEO_TRACKS = "videoTracks";
-    private static final String EVENT_PROP_AUDIO_TRACKS = "audioTracks";
     private static final String EVENT_PROP_TEXT_TRACKS = "textTracks";
     private static final String EVENT_PROP_HAS_AUDIO_FOCUS = "hasAudioFocus";
     private static final String EVENT_PROP_IS_BUFFERING = "isBuffering";
@@ -121,11 +116,9 @@ class VideoEventEmitter {
 
     private static final String EVENT_PROP_ERROR = "error";
     private static final String EVENT_PROP_ERROR_STRING = "errorString";
-    private static final String EVENT_PROP_ERROR_EXCEPTION = "errorException";
+    private static final String EVENT_PROP_ERROR_EXCEPTION = "";
 
     private static final String EVENT_PROP_TIMED_METADATA = "metadata";
-
-    private static final String EVENT_PROP_BITRATE = "bitrate";   
 
 
     void setViewId(int viewId) {
@@ -137,7 +130,7 @@ class VideoEventEmitter {
     }
 
     void load(double duration, double currentPosition, int videoWidth, int videoHeight,
-              WritableArray audioTracks, WritableArray textTracks, WritableArray videoTracks) {
+              WritableArray textTracks) {
         WritableMap event = Arguments.createMap();
         event.putDouble(EVENT_PROP_DURATION, duration / 1000D);
         event.putDouble(EVENT_PROP_CURRENT_TIME, currentPosition / 1000D);
@@ -152,8 +145,6 @@ class VideoEventEmitter {
         }
         event.putMap(EVENT_PROP_NATURAL_SIZE, naturalSize);
 
-        event.putArray(EVENT_PROP_VIDEO_TRACKS, videoTracks);
-        event.putArray(EVENT_PROP_AUDIO_TRACKS, audioTracks);
         event.putArray(EVENT_PROP_TEXT_TRACKS, textTracks);
 
         // TODO: Actually check if you can.
@@ -175,12 +166,6 @@ class VideoEventEmitter {
         event.putDouble(EVENT_PROP_SEEKABLE_DURATION, seekableDuration / 1000D);
         receiveEvent(EVENT_PROGRESS, event);
     }
-
-    void bandwidthReport(double bitRateEstimate) {
-        WritableMap event = Arguments.createMap();
-        event.putDouble(EVENT_PROP_BITRATE, bitRateEstimate);
-        receiveEvent(EVENT_BANDWIDTH, event);
-    }    
 
     void seek(long currentPosition, long seekTime) {
         WritableMap event = Arguments.createMap();
